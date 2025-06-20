@@ -7,7 +7,7 @@ const data = {
         "His childhood name was Ghanshyam.",
         "He was born in the city of Mumbai.",
       ],
-      lie: "He was born in the city of Mumbai",
+      lie: "He was born in the city of Mumbai.",
     },
     {
       round: 2,
@@ -16,7 +16,7 @@ const data = {
         "He walked barefoot across many parts of India during his travels.",
         "He traveled only by horse during his journey.",
       ],
-      lie: "He traveled only by horse during his journey",
+      lie: "He traveled only by horse during his journey.",
     },
     {
       round: 3,
@@ -25,7 +25,7 @@ const data = {
         "He became the leader of his spiritual group at age 21.",
         "He never wrote any books.",
       ],
-      lie: "He never wrote any books",
+      lie: "He never wrote any books.",
     },
     {
       round: 4,
@@ -34,34 +34,34 @@ const data = {
         "He built six temples for people to worship God.",
         "He told people to eat meat to be strong.",
       ],
-      lie: "He told people to eat meat to be strong",
+      lie: "He told people to eat meat to be strong.",
     },
     {
       round: 5,
       statements: [
-        "He traveled for 7 years during his pilgrimage across India.",
+        "He traveled for 7 years and 11 months during his pilgrimage across India.",
         "He met many people and helped them during his travels.",
         "He stayed only in one city his whole life.",
       ],
-      lie: "He stayed only in one city his whole life",
+      lie: "He stayed only in one city his whole life.",
     },
     {
       round: 6,
       statements: [
-        "Lord Swaminarayan’s followers believe he is a form of God.",
+        "Lord Swaminarayan's followers believe he is a supreme lord.",
         "He encouraged people to be honest and good.",
         "He was never interested in helping poor people.",
       ],
-      lie: "He was never interested in helping poor people",
+      lie: "He was never interested in helping poor people.",
     },
     {
       round: 7,
       statements: [
         "The special prayer he taught is called the Swaminarayan Mantra.",
-        "He started a group called the Swaminarayan Sampradaya.",
+        "He started a spiritual sect called the Swaminarayan Sampradaya.",
         "He never taught people to pray.",
       ],
-      lie: "He never taught people to pray",
+      lie: "He never taught people to pray.",
     },
     {
       round: 8,
@@ -70,7 +70,7 @@ const data = {
         "He traveled across the cold Himalayas.",
         "He was afraid of traveling alone.",
       ],
-      lie: "He was afraid of traveling alone",
+      lie: "He was afraid of traveling alone.",
     },
     {
       round: 9,
@@ -79,16 +79,16 @@ const data = {
         "He made rules for people to live a good life.",
         "He never built any temples.",
       ],
-      lie: "He never built any temples",
+      lie: "He never built any temples.",
     },
     {
       round: 10,
       statements: [
-        "He chose leaders from his family to guide his followers.",
-        "He believed anyone can reach God by being good.",
+        "He chose Aacharyas from his family to guide his followers.",
+        "He believed anyone can reach God by following his teachings.",
         "He only allowed boys to follow him.",
       ],
-      lie: "He only allowed boys to follow him",
+      lie: "He only allowed boys to follow him.",
     },
   ],
 };
