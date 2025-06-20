@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Truths and a Lie - Lord Swaminarayan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.6rem;
+            opacity: 0.9;
+        }
+
+        /* Landing Page Styles */
+        .landing-page {
+            display: block;
+        }
+
+        .rounds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .round-tile {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            padding: 45px 30px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .round-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            background: #667eea;
+            color: white;
+        }
+
+        /* Game Page Styles */
+        .game-page {
+            display: none;
+        }
+
+        .game-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .game-header-left {
+            flex: 0 0 auto;
+        }
+
+        .game-header-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .game-header-right {
+            flex: 0 0 auto;
+        }
+
+        .round-number {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .game-instructions {
+            color: white;
+            font-style: italic;
+            font-size: 1.4rem;
+            opacity: 0.9;
+        }
+
+        .header-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .header-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .header-btn.primary {
+            background: #28a745;
+            border: 1px solid #28a745;
+        }
+
+        .header-btn.primary:hover {
+            background: #218838;
+            border: 1px solid #218838;
+        }
+
+        .statements-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .statement {
+            background: white;
+            border: 4px solid transparent;
+            border-radius: 20px;
+            padding: 35px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            font-size: 1.6rem;
+            line-height: 1.6;
+        }
+
+        .statement:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .statement.selected-truth {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .statement.selected-lie {
+            border-color: #dc3545;
+            background: #fff8f8;
+        }
+
+        .statement.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .result-message {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            display: none;
+            font-size: 1.3rem;
+        }
+
+        .result-message h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .result-message.show {
+            display: block;
+        }
+
+        .result-message.correct {
+            border-left: 5px solid #28a745;
+        }
+
+        .result-message.incorrect {
+            border-left: 5px solid #dc3545;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            height: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 15px;
+            transition: width 0.3s ease;
+        }
+
+        
+
+         @media (max-width: 768px) {
+             .container {
+                 padding: 20px;
+             }
+             
+             .header h1 {
+                 font-size: 2.8rem;
+             }
+             
+             .header p {
+                 font-size: 1.3rem;
+             }
+             
+             .rounds-grid {
+                 grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                 gap: 20px;
+             }
+             
+             .round-tile {
+                 padding: 35px 20px;
+                 font-size: 1.8rem;
+             }
+             
+             .statement {
+                 padding: 25px;
+                 font-size: 1.3rem;
+             }
+             
+             .round-number {
+                 font-size: 2rem;
+             }
+             
+             .game-instructions {
+                 font-size: 1.2rem;
+             }
+             
+             .header-btn {
+                 padding: 10px 16px;
+                 font-size: 0.9rem;
+             }
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Two Truths and a Lie</h1>
+            <p>Learn about Lord Swaminarayan - Can you spot the lie?</p>
+        </div>
+
+        <!-- Landing Page -->
+        <div id="landingPage" class="landing-page">
+            <div class="progress-bar">
+                <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+            </div>
+            <div class="rounds-grid" id="roundsGrid">
+                <!-- Round tiles will be generated here -->
+            </div>
+        </div>
+
+        <!-- Game Page -->
+        <div id="gamePage" class="game-page">
+            <div class="game-header">
+                <div class="game-header-left">
+                    <button class="header-btn" id="backToMenuBtn">← Menu</button>
+                </div>
+                <div class="game-header-center">
+                    <div class="round-number" id="currentRound">Round 1</div>
+                    <div class="game-instructions">Click on the statement you think is the LIE</div>
+                </div>
+                <div class="game-header-right">
+                    <button class="header-btn primary" id="nextRoundBtn" style="display: none;">Next →</button>
+                </div>
+            </div>
+
+            <div class="statements-container" id="statementsContainer">
+                <!-- Statements will be generated here -->
+            </div>
+
+            <div class="result-message" id="resultMessage">
+                <!-- Result message will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="data.js"></script>
+    <script>
+        class TwoTruthsAndLieGame {
+            constructor() {
+                this.currentRoundIndex = 0;
+                this.completedRounds = new Set();
+                this.gameData = data;
+                this.init();
+            }
+
+            playCelebrationSound() {
+                const audioFiles = ['applause.m4a', 'kids-cheer.m4a'];
+                const randomAudio = audioFiles[Math.floor(Math.random() * audioFiles.length)];
+                
+                const audio = new Audio(randomAudio);
+                audio.volume = 0.7; // Set volume to 70%
+                
+                // Play audio with error handling
+                audio.play().catch(error => {
+                    console.log('Audio playback failed:', error);
+                    // Audio might fail due to browser autoplay policies
+                    // This is normal and expected behavior
+                });
+            }
+
+            shuffleArray(array) {
+                // Fisher-Yates shuffle algorithm
+                const shuffled = [...array]; // Create a copy to avoid modifying original
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+
+            createConfetti() {
+                const colors = ['#667eea', '#764ba2', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6f42c1'];
+                
+                // Multiple confetti bursts for a more exciting effect
+                const duration = 3 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, colors: colors };
+
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                const interval = setInterval(function() {
+                    const timeLeft = animationEnd - Date.now();
+
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
+
+                    const particleCount = 50 * (timeLeft / duration);
+                    
+                    // Since confetti falls down, start a bit higher and to the left/right
+                    confetti(Object.assign({}, defaults, { 
+                        particleCount,
+                        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+                    }));
+                    confetti(Object.assign({}, defaults, { 
+                        particleCount,
+                        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+                    }));
+                }, 250);
+
+                // Big burst from the center
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: colors
+                });
+            }
+
+            init() {
+                this.generateRoundTiles();
+                this.setupEventListeners();
+                this.updateProgress();
+            }
+
+            generateRoundTiles() {
+                const roundsGrid = document.getElementById('roundsGrid');
+                roundsGrid.innerHTML = '';
+
+                this.gameData.rounds.forEach((round, index) => {
+                    const tile = document.createElement('button');
+                    tile.className = 'round-tile';
+                    tile.textContent = round.round;
+                    tile.addEventListener('click', () => this.startRound(index));
+                    
+                    if (this.completedRounds.has(index)) {
+                        tile.style.background = '#28a745';
+                        tile.style.color = 'white';
+                    }
+                    
+                    roundsGrid.appendChild(tile);
+                });
+            }
+
+            startRound(roundIndex) {
+                this.currentRoundIndex = roundIndex;
+                this.showGamePage();
+                this.loadRound();
+            }
+
+            showGamePage() {
+                document.getElementById('landingPage').style.display = 'none';
+                document.getElementById('gamePage').style.display = 'block';
+            }
+
+            showLandingPage() {
+                document.getElementById('landingPage').style.display = 'block';
+                document.getElementById('gamePage').style.display = 'none';
+                this.generateRoundTiles();
+                this.updateProgress();
+            }
+
+            loadRound() {
+                const round = this.gameData.rounds[this.currentRoundIndex];
+                
+                // Update round number
+                document.getElementById('currentRound').textContent = `Round ${round.round}`;
+                
+                // Clear previous content
+                const statementsContainer = document.getElementById('statementsContainer');
+                statementsContainer.innerHTML = '';
+                
+                const resultMessage = document.getElementById('resultMessage');
+                resultMessage.classList.remove('show');
+                
+                const nextRoundBtn = document.getElementById('nextRoundBtn');
+                nextRoundBtn.style.display = 'none';
+
+                // Shuffle the statements for random order
+                const shuffledStatements = this.shuffleArray(round.statements);
+
+                // Create statement elements with randomized order
+                shuffledStatements.forEach((statement, index) => {
+                    const statementDiv = document.createElement('div');
+                    statementDiv.className = 'statement';
+                    statementDiv.textContent = statement;
+                    statementDiv.addEventListener('click', () => this.selectStatement(statement, statementDiv));
+                    statementsContainer.appendChild(statementDiv);
+                });
+            }
+
+            selectStatement(selectedStatement, selectedElement) {
+                const round = this.gameData.rounds[this.currentRoundIndex];
+                // Normalize strings by removing trailing punctuation and comparing
+                const normalizeString = (str) => str.replace(/[.,!?;:]+$/, '').trim();
+                const isCorrect = normalizeString(selectedStatement) === normalizeString(round.lie);
+
+                // Disable all statements
+                const statements = document.querySelectorAll('.statement');
+                statements.forEach(stmt => {
+                    stmt.classList.add('disabled');
+                    if (normalizeString(stmt.textContent) === normalizeString(round.lie)) {
+                        stmt.classList.add('selected-lie');
+                    } else {
+                        stmt.classList.add('selected-truth');
+                    }
+                });
+
+                // Show result message
+                const resultMessage = document.getElementById('resultMessage');
+                resultMessage.classList.add('show');
+                
+                if (isCorrect) {
+                    resultMessage.className = 'result-message show correct';
+                    resultMessage.innerHTML = `
+                        <h3>🎉 Correct!</h3>
+                        <p>You identified the lie: "<strong>${round.lie}</strong>"</p>
+                    `;
+                    this.completedRounds.add(this.currentRoundIndex);
+                    // Trigger confetti animation and celebration sound
+                    this.createConfetti();
+                    this.playCelebrationSound();
+                } else {
+                    resultMessage.className = 'result-message show incorrect';
+                    resultMessage.innerHTML = `
+                        <h3>❌ Not quite!</h3>
+                        <p>The lie was: "<strong>${round.lie}</strong>"</p>
+                        <p>You selected a truth: "<strong>${selectedStatement}</strong>"</p>
+                    `;
+                }
+
+                // Show next round button
+                const nextRoundBtn = document.getElementById('nextRoundBtn');
+                if (this.currentRoundIndex < this.gameData.rounds.length - 1) {
+                    nextRoundBtn.textContent = 'Next Round';
+                    nextRoundBtn.style.display = 'inline-block';
+                } else {
+                    nextRoundBtn.textContent = 'Back to Menu';
+                    nextRoundBtn.style.display = 'inline-block';
+                }
+            }
+
+            nextRound() {
+                if (this.currentRoundIndex < this.gameData.rounds.length - 1) {
+                    this.currentRoundIndex++;
+                    this.loadRound();
+                } else {
+                    this.showLandingPage();
+                }
+            }
+
+            updateProgress() {
+                const progressPercentage = (this.completedRounds.size / this.gameData.rounds.length) * 100;
+                document.getElementById('overallProgress').style.width = `${progressPercentage}%`;
+            }
+
+            setupEventListeners() {
+                document.getElementById('nextRoundBtn').addEventListener('click', () => {
+                    this.nextRound();
+                });
+
+                document.getElementById('backToMenuBtn').addEventListener('click', () => {
+                    this.showLandingPage();
+                });
+            }
+        }
+
+        // Initialize the game when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new TwoTruthsAndLieGame();
+        });
+    </script>
+</body>
+</html>
